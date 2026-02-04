@@ -1,21 +1,22 @@
 pipeline {
-    agent { label '172.16.0.211' }  // Your Windows node label
+    agent { label '172.16.0.211' } // Your Windows node label
     stages {
         stage('Run PowerShell with Credentials') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'windows-admin-creds', usernameVariable: 'ADMIN_USER', passwordVariable: 'ADMIN_PASS')]) {
-                    powershell """
-						$username = $env:APP_USER
-                        $password = $env:APP_PASSWORD
-                        $securePass = ConvertTo-SecureString $password -AsPlainText -Force
-                        $cred = New-Object System.Management.Automation.PSCredential ($username, $securePass)
-                        Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File './expand_disk.ps1'" -Credential \$cred -Wait -NoNewWindow
-                    """
+                    powershell '''
+$username = $env:ADMIN_USER
+$password = $env:ADMIN_PASS
+$securePass = ConvertTo-SecureString $password -AsPlainText -Force
+$cred = New-Object System.Management.Automation.PSCredential ($username, $securePass)
+Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File './expand_disk.ps1'" -Credential $cred -Wait -NoNewWindow
+                    '''
                 }
             }
         }
     }
 }
+
 
 
 
