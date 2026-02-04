@@ -5,15 +5,16 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'windows-admin-creds', usernameVariable: 'ADMIN_USER', passwordVariable: 'ADMIN_PASS')]) {
                     powershell """
-				$securePass = ConvertTo-SecureString $env:ADMIN_PASS -AsPlainText -Force  # Assuming passed via env vars
-				$cred = New-Object System.Management.Automation.PSCredential ($env:ADMIN_USER, $securePass)
-				Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File expand_disk.ps1" -Credential $cred -Wait -NoNewWindow
+                        \$securePass = ConvertTo-SecureString \$env:ADMIN_PASS -AsPlainText -Force
+                        \$cred = New-Object System.Management.Automation.PSCredential (\$env:ADMIN_USER, \$securePass)
+                        Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File './expand_disk.ps1'" -Credential \$cred -Verb RunAs -Wait -NoNewWindow
                     """
                 }
             }
         }
     }
 }
+
 
 
 
