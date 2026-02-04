@@ -9,13 +9,14 @@ $username = $env:ADMIN_USER
 $password = $env:ADMIN_PASS
 $securePass = ConvertTo-SecureString $password -AsPlainText -Force
 $cred = New-Object System.Management.Automation.PSCredential ($username, $securePass)
-Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File ./expand_disk.ps1" -Credential $cred -Wait -NoNewWindow
+Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File ./expand_disk.ps1" -Credential $cred -Verb RunAs -Wait -NoNewWindow
                     '''
                 }
             }
         }
     }
 }
+
 
 
 
