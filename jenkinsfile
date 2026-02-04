@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'windows' }  // Your Windows node label
+    agent { label '172.16.0.211' }  // Your Windows node label
     stages {
         stage('Run PowerShell with Credentials') {
             steps {
@@ -13,4 +13,5 @@ pipeline {
             }
         }
     }
+
 }
